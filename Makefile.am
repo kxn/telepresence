@@ -17,6 +17,7 @@ ${TINYSMS_CFLAGS} \
 ${TINYMSRP_CFLAGS} \
 ${TINYRTP_CFLAGS} \
 ${TINYIPSEC_CFLAGS} \
+${TINYWRAP_CFLAGS} \
 ${LIBAVCODEC_CFLAGS} \
 ${LIBAVFILTER_CFLAGS} \
 ${LIBAVFORMAT_CFLAGS} \
@@ -24,7 +25,6 @@ ${LIBAVUTIL_CFLAGS} \
 ${LIBSWRESAMPLE_CFLAGS} \
 ${LIBSWSCAL_CFLAGS}  \
 ${OPENAL_CFLAGS} \
--Itinywrap \
 -Iinclude
 
 telepresence_LDADD = \
@@ -45,6 +45,7 @@ ${TINYSMS_LIBS} \
 ${TINYMSRP_LIBS} \
 ${TINYRTP_LIBS} \
 ${TINYIPSEC_LIBS} \
+${TINYWRAP_LIBS} \
 ${LIBAVCODEC_LIBS} \
 ${LIBAVFILTER_LIBS} \
 ${LIBAVFORMAT_LIBS} \
@@ -129,27 +130,6 @@ telepresence_SOURCES  += \
 telepresence_SOURCES  += \
 	source/recorder/OTRecorder.cc \
 	source/recorder/OTWebM.cc
-
-telepresence_SOURCES  += \
-	tinywrap/ActionConfig.cxx\
-	tinywrap/AudioResampler.cxx\
-	tinywrap/DDebug.cxx\
-	tinywrap/MediaContent.cxx\
-	tinywrap/MediaSessionMgr.cxx\
-	tinywrap/Msrp.cxx\
-	tinywrap/ProxyConsumer.cxx\
-	tinywrap/ProxyPluginMgr.cxx\
-	tinywrap/ProxyProducer.cxx\
-	tinywrap/SafeObject.cxx\
-	tinywrap/SipCallback.cxx\
-	tinywrap/SipEvent.cxx\
-	tinywrap/SipMessage.cxx\
-	tinywrap/SipSession.cxx\
-	tinywrap/SipStack.cxx\
-	tinywrap/SipUri.cxx\
-	tinywrap/SMSEncoder.cxx\
-	tinywrap/Xcap.cxx
-
 
 telepresence_LDFLAGS = -Wl,-rpath,$$ORIGIN
 

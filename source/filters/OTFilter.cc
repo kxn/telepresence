@@ -168,7 +168,7 @@ bool OTFilterVideoFFmeg::filterFrame(
 	m_pFrameIn->height = nInHeight;
 
 	/* push the decoded frame into the filtergraph */
-    if((ret = av_buffersrc_add_frame(m_pBufferSrcCtx, m_pFrameIn, 0)) < 0) 
+    if((ret = av_buffersrc_add_frame(m_pBufferSrcCtx, m_pFrameIn)) < 0) 
 	{
 		OT_DEBUG_ERROR_EX(kOTMobuleNameFFmpegFilter, "Error while feeding the filtergraph: %s", ot_av_err2str(ret));
         goto end;
@@ -273,7 +273,7 @@ bool OTFilterVideoFFmeg::_init(std::string strDescription, size_t nInWidth, size
 	m_pInputs->pad_idx    = 0;
 	m_pInputs->next       = NULL;
 
-	if((ret = avfilter_graph_parse(m_pFilterGraph, strDescription.c_str(), &m_pInputs, &m_pOutputs, NULL)) < 0)
+	if((ret = avfilter_graph_parse(m_pFilterGraph, strDescription.c_str(), m_pInputs, m_pOutputs, NULL)) < 0)
 	{
 		OT_DEBUG_ERROR_EX(kOTMobuleNameFFmpegFilter, "Failed to parse graph[%s]: %s", strDescription.c_str(), ot_av_err2str(ret));
 		goto end;

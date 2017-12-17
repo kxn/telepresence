@@ -217,6 +217,7 @@ AC_SUBST(have_tinysms, no)
 AC_SUBST(have_tinymsrp, no)
 AC_SUBST(have_tinyrtp, no)
 AC_SUBST(have_tinyipsec, no)
+AC_SUBST(have_tinywrap, no)
 PKG_CHECK_MODULES(TINYSAK, tinySAK >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinysak, yes), AC_MSG_WARN(Cannot find tinySAK >= ${DOUBANGO_MINVER} using pkg-config))
 PKG_CHECK_MODULES(TINYNET, tinyNET >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinynet, yes), AC_MSG_WARN(Cannot find tinyNET >= ${DOUBANGO_MINVER} using pkg-config))
 PKG_CHECK_MODULES(TINYHTTP, tinyHTTP >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinyhttp, yes), AC_MSG_WARN(Cannot find tinyHTTP >= ${DOUBANGO_MINVER} using pkg-config))
@@ -231,8 +232,10 @@ PKG_CHECK_MODULES(TINYSMS, tinySMS >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinysms,
 PKG_CHECK_MODULES(TINYMSRP, tinyMSRP >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinymsrp, yes), AC_MSG_WARN(Cannot find tinyMSRP >= ${DOUBANGO_MINVER} using pkg-config))
 PKG_CHECK_MODULES(TINYRTP, tinyRTP >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinyrtp, yes), AC_MSG_WARN(Cannot find tinyRTP >= ${DOUBANGO_MINVER} using pkg-config))
 PKG_CHECK_MODULES(TINYIPSEC, tinyIPSec >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinyipsec, yes), AC_MSG_WARN(Cannot find tinyIPSec >= ${DOUBANGO_MINVER} using pkg-config))
+PKG_CHECK_MODULES(TINYWRAP, tinyWRAP >= ${DOUBANGO_MINVER}, AC_SUBST(have_tinywrap, yes), AC_MSG_WARN(Cannot find tinyWRAP >= ${DOUBANGO_MINVER} using pkg-config))
 
-if test $have_tinysak:$have_tinynet:$have_tinyhttp:$have_tinysip:$have_tinydav:$have_tinysdp:$have_tinybfcp:$have_tinysigcomp:$have_tinymedia:$have_tinyxcap:$have_tinysms:$have_tinymsrp:$have_tinyrtp:$have_tinyipsec != yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes ; then
+
+if test $have_tinysak:$have_tinynet:$have_tinyhttp:$have_tinysip:$have_tinydav:$have_tinysdp:$have_tinybfcp:$have_tinysigcomp:$have_tinymedia:$have_tinyxcap:$have_tinysms:$have_tinymsrp:$have_tinyrtp:$have_tinyipsec:$have_tinywrap != yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes:yes ; then
 	AC_MSG_WARN([
 ***
 *** Failed to find all DOUBANGO libraries using pkg-config.
@@ -272,6 +275,8 @@ AC_SUBST(TINYSMS_LIBS,-ltinySMS) AC_SUBST(TINYSMS_CFLAGS,-I${DOUBANGO_INCLUDES_P
 AC_SUBST(TINYMSRP_LIBS,-ltinyMSRP) AC_SUBST(TINYMSRP_CFLAGS,-I${DOUBANGO_INCLUDES_PATH}/tinymsrp)
 AC_SUBST(TINYRTP_LIBS,-ltinyRTP) AC_SUBST(TINYRTP_CFLAGS,-I${DOUBANGO_INCLUDES_PATH}/tinyrtp)
 AC_SUBST(TINYIPSEC_LIBS,-ltinyIPSec) AC_SUBST(TINYIPSEC_CFLAGS,-I${DOUBANGO_INCLUDES_PATH}/tinyipsec)
+AC_SUBST(TINYWRAP_LIBS,-ltinyWRAP) AC_SUBST(TINYWRAP_CFLAGS,-I${DOUBANGO_INCLUDES_PATH}/tinywrap)
+
 fi
 
 if test $have_tinysak != yes; then
@@ -345,7 +350,11 @@ if test $have_tinyipsec != yes; then
 	)
 fi
 
-
+if test $have_tinywrap != yes; then
+   AC_CHECK_HEADERS(tinywrap/tinywrap_config.h, 
+       AC_CHECK_LIB(tinyWRAP, tipsec_ctx_create, AC_SUBST(have_tinywrap, yes) , AC_MSG_ERROR(Failed to find libtinywrap), [-ltinyWRAP ${LIBDL}])
+   )
+fi
 
 
 AC_OUTPUT(
@@ -384,6 +393,7 @@ DOUBANGO
      TINYMSRP:                                 ${have_tinymsrp}
      TINYRTP:                                  ${have_tinyrtp}
      TINYIPSEC:                                ${have_tinyipsec}
+     TINYWRAP:                                 ${have_tinywrap}
 
 FFMPEG
 
